@@ -28,11 +28,11 @@ module.exports = function(deployer, network, accounts) {
     } else if (network == "rinkeby") { // rinkeby testnet
 
         snapshotableTokenFactory = {
-            address : '0xa8e055d89579a74b0110728a740e18e80c44e211'
+            address : '0x188e2f719f49a9bbcb20ac4f872494848d1a04d4'
         };
 
         dKRWToken = {
-            address : '0xaeee4b4fdfa06dc8f259b46019a1cdc7fd631001',
+            address : '0xc46550c3679240ab3bbc7e8b49b6c6b9e396c544',
             initialOwner : '0x5ba118686ce27c59d695833661268697d4ce0523',
             initialSupply : web3.toWei('100000000','ether')
         };
@@ -68,18 +68,18 @@ module.exports = function(deployer, network, accounts) {
         console.log('SnapshotableTokenFactory contract at ' + tf.address);
 
         DKRWTokenContract.at(dKRWToken.address).then(function (exiT) {
-            console.log('Found existing DKRWTokenContract contract at ' + exiT.address);
+            console.log('Found existing DKRWToken contract at ' + exiT.address);
             return Promise.resolve(exiT);
         }).catch(function (err) {
             if (err.message && err.message.includes('Cannot create instance of')) {
-                console.log('Deploying new DKRWTokenContract contract');
+                console.log('Deploying new DKRWToken contract');
                 return DKRWTokenContract.new(tf.address,{from: contractOwner}).then(function (newT) {
-                    console.log('Deployed new DKRWTokenContract contract at ' + newT.address);
-                    console.log('Sending Transaction : DKRWTokenContract.generateTokens() for initial supply');
+                    console.log('Deployed new DKRWToken contract at ' + newT.address);
+                    console.log('Sending Transaction : DKRWToken.generateTokens() for initial supply');
                     return newT.generateTokens(dKRWToken.initialOwner, dKRWToken.initialSupply, {from: contractOwner}).then(function (resGenTokens) {
 
                         if (resGenTokens.logs && resGenTokens.logs.length > 0 && resGenTokens.logs[0].event == 'Transfer') {
-                            console.log('DKRWTokenContract.generateTokens() Success!');
+                            console.log('DKRWToken.generateTokens() Success!');
                             console.log(resGenTokens.logs);
                             return newT;
                         } else {
