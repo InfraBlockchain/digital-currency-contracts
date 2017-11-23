@@ -1,0 +1,25 @@
+# Logs
+logs
+*.log
+
+# Compiled contract artifacts
+build/
+
+# OS generated files #
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# Node Files #
+/node_modules
+/bower_components
+npm-debug.log
+
+# IDE #
+.idea/
+*.swp
+
+migrations/1_unlock_account.js
+
+
