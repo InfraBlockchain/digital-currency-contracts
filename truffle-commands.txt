@@ -1,0 +1,24 @@
+
+## Truffle (Ethereum Smart Contract)
+truffle compile
+truffle compile --compile-all
+
+testrpc (@see test/testrpc.txt)
+
+truffle migrate --reset
+truffle migrate --compile-all
+
+truffle test
+
+# local test rpc
+truffle develop
+>> migrate
+
+# [Rinkeby] run geth with rpc server (with non-default port 8547) (default port number : 8545)
+GETH=/path-to/go-ethereum-x.x.x/build/bin
+$GETH/geth --rinkeby --cache=512 --rpc --rpcport 8547 --rpcapi "personal,db,eth,net,web3" --rpcaddr "0.0.0.0" --rpccorsdomain "*" --txpool.nolocals --port=0 console
+
+truffle migrate --network rinkeby
+
+
+web3.personal.unlockAccount('0xabcd', 'pw', 60*60);
