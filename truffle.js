@@ -5,6 +5,11 @@ module.exports = {
             port: 8545,
             network_id: "*"
         },
+        ganache: {
+          host: "localhost",
+          port: 7545,
+          network_id: "5777"
+        },
         ropsten: {
             network_id: 3, // ropsten testnet
             host: "localhost",
