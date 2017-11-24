@@ -44,7 +44,7 @@ contract DigitalCurrencyTokenBase is SnapshotableToken {
         uint8 _decimalUnits,
         string _tokenSymbol,
         bool _transfersEnabled
-    ) SnapshotableToken(_tokenFactory, _parentToken, _parentSnapshotBlock,
+    ) public SnapshotableToken(_tokenFactory, _parentToken, _parentSnapshotBlock,
         _tokenName, _decimalUnits, _tokenSymbol, _transfersEnabled) {
     }
 
