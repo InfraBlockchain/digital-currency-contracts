@@ -24,8 +24,6 @@ import "./DigitalCurrencyTokenBase.sol";
 
 contract DUSDToken is DigitalCurrencyTokenBase {
 
-    mapping (address => uint256) nonces;
-
     /// @notice DUSDToken constructor
     /// @param _tokenFactory The address of the SnapshotableTokenFactory contract that
     ///   will create the Clone token contracts, the token factory needs to be deployed first

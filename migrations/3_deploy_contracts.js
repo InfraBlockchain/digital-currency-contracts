@@ -22,7 +22,7 @@ module.exports = function(deployer, network, accounts) {
         };
 
         dUSDToken = {
-            address : '0xa88e2f7a9fa9a9bbcb20ac4aa7249a84bd1a04da',
+            address : '0x6e8579634dc68e8648263c248f2db3bd280253b1',
             initialOwner : '0x5677e23889387f0d0e774f2e930e91bcee9dcaa6',
             initialSupply : web3.toWei('100000000','ether')
         };
@@ -37,13 +37,13 @@ module.exports = function(deployer, network, accounts) {
         };
 
         dKRWToken = {
-            address : '0x8f4beac7ec1c5764a3845ba735db658de10e50f0',
+            address : '0x2d06d3e6bdd49af06907e7a5c25166e409b917e4',
             initialOwner : '0x5ba118686ce27c59d695833661268697d4ce0523',
             initialSupply : web3.toWei('100000000','ether')
         };
 
         dUSDToken = {
-            address : '0x7ceebbaebf5c4758a4b758aa90becd80587ba740',
+            address : '0x6e8579634dc68e8648263c248f2db3bd280253b1',
             initialOwner : '0x5ba118686ce27c59d695833661268697d4ce0523',
             initialSupply : web3.toWei('100000000','ether')
         };
