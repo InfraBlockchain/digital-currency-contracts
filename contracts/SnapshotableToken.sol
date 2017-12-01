@@ -243,7 +243,7 @@ contract SnapshotableToken is Controlled {
 
     /// @param _owner The address that's balance is being requested
     /// @return The balance of `_owner` at the current block
-    function balanceOf(address _owner) public constant returns (uint256 balance) {
+    function balanceOf(address _owner) public view returns (uint256 balance) {
         return balanceOfAtCheckpoint(_owner, block.number);
     }
 
@@ -277,13 +277,13 @@ contract SnapshotableToken is Controlled {
     /// @param _spender The address of the account able to transfer the tokens
     /// @return Amount of remaining tokens of _owner that _spender is allowed
     ///  to spend
-    function allowance(address _owner, address _spender) public constant returns (uint256 remaining) {
+    function allowance(address _owner, address _spender) public view returns (uint256 remaining) {
         return allowed[_owner][_spender];
     }
 
     /// @dev This function makes it easy to get the total number of tokens
     /// @return The total number of tokens
-    function totalSupply() public constant returns (uint256) {
+    function totalSupply() public view returns (uint256) {
         return totalSupplyAtCheckpoint(block.number);
     }
 
@@ -334,7 +334,7 @@ contract SnapshotableToken is Controlled {
 
     /// @param _blockNum The block number to be checked if it is snapshotted block number
     /// @return true if the '_blockNumber' is one of the snapshotted block number
-    function isSnapshotBlock(uint256 _blockNum) public constant returns (bool) {
+    function isSnapshotBlock(uint256 _blockNum) public view returns (bool) {
         if (snapshotBlocks.length == 0) return false;
 
         uint128 _block = cast128(_blockNum);
@@ -362,7 +362,7 @@ contract SnapshotableToken is Controlled {
     /// @param _owner The address from which the balance will be retrieved
     /// @param _snapshotBlockNumber The snapshotted block number at which the balance is queried
     /// @return The balance at `_snapshotBlockNumber`
-    function balanceOfAtSnapshot(address _owner, uint256 _snapshotBlockNumber) public constant returns (uint256) {
+    function balanceOfAtSnapshot(address _owner, uint256 _snapshotBlockNumber) public view returns (uint256) {
         require(isSnapshotBlock(_snapshotBlockNumber));
         return balanceOfAtCheckpoint(_owner, _snapshotBlockNumber);
     }
@@ -377,7 +377,7 @@ contract SnapshotableToken is Controlled {
     /// @param _owner The address from which the balance will be retrieved
     /// @param _blockNum The block number when the balance is queried
     /// @return The balance at `_blockNumber`
-    function balanceOfAtCheckpoint(address _owner, uint256 _blockNum) public constant returns (uint256) {
+    function balanceOfAtCheckpoint(address _owner, uint256 _blockNum) public view returns (uint256) {
 
         uint128 _block = cast128(_blockNum);
 
@@ -403,7 +403,7 @@ contract SnapshotableToken is Controlled {
     /// @notice Queries the total-supply value at a specific snapshotted block number
     /// @param _snapshotBlockNumber The snapshotted block number at which the total supply is queried
     /// @return The balance at `_snapshotBlockNumber`
-    function totalSupplyAtSnapshot(uint256 _snapshotBlockNumber) public constant returns (uint256) {
+    function totalSupplyAtSnapshot(uint256 _snapshotBlockNumber) public view returns (uint256) {
         require(isSnapshotBlock(_snapshotBlockNumber));
         return balanceOfAtCheckpoint(0, _snapshotBlockNumber);
     }
@@ -412,7 +412,7 @@ contract SnapshotableToken is Controlled {
     ///   Only the snapshotted block numbers and recent block numbers after last snapshot are guaranteed to return correct value.
     /// @param _blockNumber The block number when the totalSupply is queried
     /// @return The total amount of tokens at `_blockNumber`
-    function totalSupplyAtCheckpoint(uint256 _blockNumber) public constant returns (uint256) {
+    function totalSupplyAtCheckpoint(uint256 _blockNumber) public view returns (uint256) {
         return balanceOfAtCheckpoint(0, _blockNumber);
     }
 
@@ -511,7 +511,7 @@ contract SnapshotableToken is Controlled {
     /// @param checkpoints The history of values being queried
     /// @param _blockNum The block number to retrieve the value at
     /// @return The number of tokens being queried
-    function getValueAtCheckpoint(Checkpoint[] storage checkpoints, uint256 _blockNum) constant internal returns (uint256) {
+    function getValueAtCheckpoint(Checkpoint[] storage checkpoints, uint256 _blockNum) view internal returns (uint256) {
         if (checkpoints.length == 0) return 0;
 
         uint128 _block = cast128(_blockNum);
@@ -561,7 +561,7 @@ contract SnapshotableToken is Controlled {
     /// @dev Internal function to determine if an address is a contract
     /// @param _addr The address being queried
     /// @return True if `_addr` is a contract
-    function isContract(address _addr) constant internal returns (bool) {
+    function isContract(address _addr) view internal returns (bool) {
         uint size;
         if (_addr == 0) return false;
         assembly {
