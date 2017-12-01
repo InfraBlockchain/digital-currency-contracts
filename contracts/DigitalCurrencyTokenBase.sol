@@ -79,16 +79,20 @@ contract DigitalCurrencyTokenBase is SnapshotableToken {
 
         // FIXME: Should this throw, or return 0?
         if (sig.length != 65) {
-            return 0;
+            return (address(0));
         }
 
         // The signature format is a compact form of:
         //   {bytes32 r}{bytes32 s}{uint8 v}
         // Compact means, uint8 is not padded to 32 bytes.
         assembly {
-        r := mload(add(sig, 32))
-        s := mload(add(sig, 64))
-        v := mload(add(sig, 65))
+            r := mload(add(sig, 32))
+            s := mload(add(sig, 64))
+
+            // Here we are loading the last 32 bytes. We exploit the fact that
+            // 'mload' will pad with zeroes if we overread.
+            // There is no 'mload8' to do this, but that would be nicer.
+            v := byte(0, mload(add(sig, 96)))
         }
 
         // old geth sends a `v` value of [0,1], while the new, in line with the YP sends [27,28]
@@ -96,7 +100,12 @@ contract DigitalCurrencyTokenBase is SnapshotableToken {
             v += 27;
         }
 
-        return ecrecover(hash, v, r, s);
+        // If the version is correct return the signer address
+        if ((v != 27 && v != 28)) {
+            return (address(0));
+        } else {
+            return ecrecover(hash, v, r, s);
+        }
     }
 
     function ecverify(bytes32 hash, bytes sig, address signer) internal pure returns (bool b) {
