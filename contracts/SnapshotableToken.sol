@@ -55,17 +55,21 @@ contract TokenController {
 }
 
 contract Controlled {
+
+    address public controller;
+
+    event ControllerChanged(address indexed previousController, address indexed newController);
+
     /// @notice The address of the controller is the only address that can call
     ///  a function with this modifier
     modifier onlyController { require(msg.sender == controller); _; }
-
-    address public controller;
 
     function Controlled() public { controller = msg.sender; }
 
     /// @notice Changes the controller of the contract
     /// @param _newController The new controller of the contract
     function changeController(address _newController) public onlyController {
+        ControllerChanged(controller, _newController);
         controller = _newController;
     }
 }
@@ -146,6 +150,11 @@ contract SnapshotableToken is Controlled {
     // The factory used to create new clone tokens
     SnapshotableTokenFactory public tokenFactory;
 
+    modifier whenTransferEnabled() {
+        require(transfersEnabled);
+        _;
+    }
+
     ////////////////
     // Constructor
     ////////////////
@@ -202,8 +211,7 @@ contract SnapshotableToken is Controlled {
     /// @param _to The address of the recipient
     /// @param _value The amount of tokens to be transferred
     /// @return Whether the transfer was successful or not
-    function transfer(address _to, uint256 _value) public returns (bool success) {
-        require(transfersEnabled);
+    function transfer(address _to, uint256 _value) whenTransferEnabled public returns (bool success) {
         return transferFromTo(msg.sender, _to, _value, "");
     }
 
@@ -214,8 +222,7 @@ contract SnapshotableToken is Controlled {
     /// @param _data custom data can be attached to this token transaction and it will stay in blockchain forever.
     ///              _data can be empty.
     /// @return Whether the transfer was successful or not
-    function transfer(address _to, uint _value, bytes _data) public returns (bool success) {
-        require(transfersEnabled);
+    function transfer(address _to, uint _value, bytes _data) whenTransferEnabled public returns (bool success) {
         return transferFromTo(msg.sender, _to, _value, _data);
     }
 
@@ -253,8 +260,8 @@ contract SnapshotableToken is Controlled {
     /// @param _spender The address of the account able to transfer the tokens
     /// @param _value The amount of tokens to be approved for transfer
     /// @return True if the approval was successful
-    function approve(address _spender, uint256 _value) public returns (bool success) {
-        require(transfersEnabled && (_spender != 0));
+    function approve(address _spender, uint256 _value) whenTransferEnabled public returns (bool success) {
+        require((_spender != 0));
 
         // To change the approve amount you first have to reduce the addresses`
         //  allowance to zero by calling `approve(_spender,0)` if it is not
@@ -494,6 +501,7 @@ contract SnapshotableToken is Controlled {
     ////////////////
     // Enable tokens transfers
     ////////////////
+    
 
 
     /// @notice Enables token holders to transfer their tokens freely if true

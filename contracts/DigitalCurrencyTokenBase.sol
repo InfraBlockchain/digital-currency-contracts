@@ -48,7 +48,7 @@ contract DigitalCurrencyTokenBase is SnapshotableToken {
         _tokenName, _decimalUnits, _tokenSymbol, _transfersEnabled) {
     }
 
-    function transferDelegated(address _from, address _to, uint256 _value, bytes _data, uint256 _delegationFee, uint256 _nonce, bytes _signature) public returns (bool success) {
+    function transferDelegated(address _from, address _to, uint256 _value, bytes _data, uint256 _delegationFee, uint256 _nonce, bytes _signature) whenTransferEnabled public returns (bool success) {
 
         uint256 nextNonce = nonces[_from] + 1;
         nonces[_from] = nextNonce;
